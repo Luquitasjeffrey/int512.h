@@ -73,14 +73,6 @@ int512 initb2e32(){
 	}
 	return resultado;
 }
-void print(int512 a){
-	cout<<endl;
-	unsigned int c;
-	for(int i=15; i>=0; i--){
-		c=a.x[i];
-		convert(c);
-	}
-}
 
 bool mayor(int512 a, int512 b){
 	yn=0;
