@@ -1,4 +1,34 @@
-#include"hexadecimal.h"
+/*
+LA LIBRERÍA CONTIENE LAS SIGUIENTES FUNCIONES:
+dividir(), multiplicar(), divideby2(), printd(), init(), sumar(), restar() soniguales(), mayor(), mod(), multiplyby2().
+
+soniguales(int512 a, int512 b): devuelve true si son el mismo numero, y false si son fistintos.
+
+mayor(int512 a, int512 b): devuelve true si a es mayor que b. caso contrario devuelve false. si son iguales tambien devuelve false.
+
+sumar(int512 a, int512 b): devuelve el valor de la suma a+b. se debe utilizar de la siguiente forma:
+int512 ejemplo=sumar(a,b); siendo a y b 2 variables del tipo int512.
+
+restar(int512 a, int512 b): devuelve el valor de la resta a-b en variable del tipo int512.
+
+multiplicar(int512 a, int512 b): devuelve el valor de la multiplicacion a*b en variable del tipo int512.
+
+dividir(int512 a, int512 b): devuelve el resultado de la division entera a/b en variable del tipo int512.
+
+mod(int512a, int512b): devuelve el modulo o resto de la division entre a y b en variable del tipo int512.
+
+divideby2(int512 n): devuelve el resultado de la division entera entre un numero n y 2 en variable del tipo int512. sirve ya que es mucho mas rapida que la division normal
+
+multiplyby2(int512 n): devuelve el resultado de la multiplicacion entre un numero n y 2. al igual que divideby2, es mucho mas rapida que la division por divide().
+
+init(): inicializa una variable del tipo int512 en decimal. se utiliza de la siguiente forma:
+int512 ejemplo=init();
+y en la consola podremos poner cualquier numero menor o igual a 2^512-1.
+
+printd(int512 n): imprime en la consola el valor endecimal de una variable de tipo int512.
+
+cualquier duda sobre la implementacion me pueden poner un comentario y los ayudo
+*/
 #include<iostream>
 #include<cstdlib>
 #ifndef int512_H_
