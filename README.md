@@ -1,2 +1,2 @@
 # int512.h
-A simple library that allows you to manage integer values of 512 bits easily 
+una linreria que permite manejar valores sin signo enteros de hasta 512 bits con la velocidad que caracteriza a c++
