@@ -38,36 +38,27 @@ using namespace std;
 struct int512{
 	unsigned long long int x[16];
 };
-int512 resultado;
-bool yn;
+
 
 int512 r0(){
+	int512 resultado;
 	for (int i=0;i<=15;i++){
 		resultado.x[i]=0;
 	}
 	return resultado;
 }
 
-int512 igual(int512 a, int512 b){
-	for(int i=0;i<=15;i++){
-		a.x[i]=b.x[i];
-	}
-	
-	return a;
-}
-
 bool soniguales(int512 a, int512 b){
-	yn=1;
 	for(int i=0; i<16;i++){
 		if(a.x[i]!=b.x[i]){
-		yn=0;	
+		return 0;	
 		}	
 	}
-	return yn;
+	return 1;
 }
 
-
 int512 initb2e32(){
+	int512 resultado;
 	for (int i=15;i>=0;i--){
 		std::cin>>resultado.x[i];
 	}
@@ -75,7 +66,7 @@ int512 initb2e32(){
 }
 
 bool mayor(int512 a, int512 b){
-	yn=0;
+	bool yn=0;
 	
 	for(int i=0; i<=15; i++){
 		if(a.x[i]>b.x[i]){
@@ -88,13 +79,11 @@ bool mayor(int512 a, int512 b){
 	return yn;
 }
 
-
 int512 sumar(int512 a, int512 b){
-	resultado=r0();
+	int512 resultado=r0();
 	unsigned long int long k=4294967296;
 	unsigned long long int s=0;
-	unsigned int i;
-	
+	unsigned int i;	
 	for(i=0;i<=15;i++){
 	resultado.x[i]=(a.x[i]+b.x[i]+s)%k;
 	s=(a.x[i]+b.x[i]+s)/k;
@@ -102,9 +91,8 @@ int512 sumar(int512 a, int512 b){
 	return resultado;
 }
 
-
 int512 restar(int512 a, int512 b){
-	resultado=r0();
+	int512 resultado=r0();
 	unsigned long int long k=4294967296;
 	unsigned int i,j;
 	for(i=0;i<=15;i++){
@@ -122,14 +110,10 @@ int512 restar(int512 a, int512 b){
 			resultado.x[i]=(a.x[i]+k)-b.x[i];
 		}
 }
-
-	
-	
 	return resultado;
 }
 
-int512 multiplicar(int512 a, int512 b){
-	
+int512 multiplicar(int512 a, int512 b){	
 	unsigned long int long k=4294967296;
 	unsigned long long int s;
 	unsigned int i,j;
@@ -151,12 +135,11 @@ int512 multiplicar(int512 a, int512 b){
 		
 		
 	}
-	resultado=igual(resultado,result);	
-	return resultado;
+	return result;
 }
 
 int512 multiplyby2(int512 a){
-	resultado=r0();
+	int512 resultado=r0();
 	unsigned long int long k=4294967296;
 	unsigned long long int s=0;
 	unsigned int i;
@@ -167,13 +150,18 @@ int512 multiplyby2(int512 a){
 	return resultado;
 }
 
+int512 multiplyby2e32(int512 a){
+	int512 resultado;
+	unsigned int i;
+	resultado.x[0]=0;
+	for(i=1;i<=15;i++){
+	resultado.x[i]=a.x[i-1];	
+}		
+	return resultado;
+}
 
-
-
-
-int512 dividir(int512 a, int512 b){
-	int512 s,rp,n2,n1,prueba,a1,amax,s0;
-	bool b1,b2,b3,b4;
+int512 dividir(int512 a1, int512 b){
+	int512 s,rp,n2,n1,prueba,amax,s0;
 	s=r0();
 	s.x[0]=1;
 	rp=r0();
@@ -181,53 +169,37 @@ int512 dividir(int512 a, int512 b){
 	n2.x[0]=2;
 	n1=r0();
 	n1.x[0]=1;
-	prueba=r0();//sumar(s,n1);
-	prueba=multiplicar(prueba,b);
-	a1=igual(a1,a);
-	b1=mayor(a,prueba);
-	b2=soniguales(a,prueba);
-	
-	while(b1==1 or b2==1){
+	while(mayor(a1,b) or soniguales(a1,b)){
 		s=r0();
 		s.x[0]=1;
 		prueba=r0();
 		s0=r0();
 		amax=r0();
-		
-		b3=mayor(a1,b);
-		b4=soniguales(a1,b);
 		prueba=b;
-		while(b3==1 or b4==1){
-			s0=igual(s0,s);
+		int i=0;
+		while((mayor(a1,prueba) or soniguales(a1,prueba)) and i<=15){
+			s0=s;
+			amax=prueba;
+			s=multiplyby2e32(s);
+			prueba=multiplyby2e32(prueba);
+			i++;
+		}
+		prueba=amax;
+		s=s0;
+		while(mayor(a1,prueba) or soniguales(a1,prueba)){
+			s0=s;
 			amax=prueba;
 			s=multiplyby2(s);
 			prueba=multiplyby2(prueba);
-			
-			b3=mayor(a1,prueba);
-			b4=soniguales(a1,prueba);
 		}
-		
 		a1=restar(a1,amax);
 		rp=sumar(rp,s0);
-		
-		
-		b1=mayor(a1,b); 
-		b2=soniguales(a1,b);
-		
-		
-		
 	}
-	
-	
-	
-	
 	return rp;
 }
 
-
-int512 mod(int512 a, int512 b){
-	int512 s,rp,n2,n1,prueba,a1,amax,s0;
-	bool b1,b2,b3,b4;
+int512 mod(int512 a1, int512 b){
+	int512 s,rp,n2,n1,prueba,amax,s0;
 	s=r0();
 	s.x[0]=1;
 	rp=r0();
@@ -235,43 +207,32 @@ int512 mod(int512 a, int512 b){
 	n2.x[0]=2;
 	n1=r0();
 	n1.x[0]=1;
-	prueba=r0();//sumar(s,n1);
-	prueba=multiplicar(prueba,b);
-	a1=igual(a1,a);
-	b1=mayor(a,prueba);
-	b2=soniguales(a,prueba);
-	
-	while(b1==1 or b2==1){
+	while(mayor(a1,b) or soniguales(a1,b)){
 		s=r0();
 		s.x[0]=1;
 		prueba=r0();
 		s0=r0();
 		amax=r0();
-		
-		b3=mayor(a1,b);
-		b4=soniguales(a1,b);
 		prueba=b;
-		while(b3==1 or b4==1){
-			s0=igual(s0,s);
+		int i=0;
+		while((mayor(a1,prueba) or soniguales(a1,prueba)) and i<=15){
+			s0=s;
+			amax=prueba;
+			s=multiplyby2e32(s);
+			prueba=multiplyby2e32(prueba);
+			i++;
+		}
+		prueba=amax;
+		s=s0;
+		while(mayor(a1,prueba) or soniguales(a1,prueba)){
+			s0=s;
 			amax=prueba;
 			s=multiplyby2(s);
 			prueba=multiplyby2(prueba);
-			
-			b3=mayor(a1,prueba);
-			b4=soniguales(a1,prueba);
 		}
-		
 		a1=restar(a1,amax);
 		rp=sumar(rp,s0);
-		
-		
-		b1=mayor(a1,b); 
-		b2=soniguales(a1,b);
-		
-		
-		
 	}
-	
 	return a1;
 }
 
@@ -285,7 +246,6 @@ void printd(int512 input){
 	int count=0;
 	while(sonigualess==0){
 		int512 modulus;
-		//if es mayor input que n10
 		modulus=mod(input,n10);
 		outputb10[count]=alfabett[modulus.x[0]];
 		input=dividir(input,n10);
@@ -323,6 +283,7 @@ int512 init(){
 
 int512 randxxx(unsigned long long int xy){
 	unsigned long long int suma,random,k;
+	int512 resultado;
 	//xy=time(0);
 	srand(xy);
 	for(int j=0; j<=15; j++){
