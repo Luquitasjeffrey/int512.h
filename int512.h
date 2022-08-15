@@ -29,15 +29,18 @@ printd(int512 n): imprime en la consola el valor endecimal de una variable de ti
 
 cualquier duda sobre la implementacion me pueden poner un comentario y los ayudo
 */
-#include<iostream>
-#include<cstdlib>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
 #ifndef int512_H_
 #define int512_H_
+#ifdef __cplusplus
+extern "C"{
+#endif
 
-using namespace std;
-struct int512{
+typedef struct int512{
 	unsigned long long int x[16];
-};
+}int512;
 
 
 int512 r0(){
@@ -60,7 +63,7 @@ bool soniguales(int512 a, int512 b){
 int512 initb2e32(){
 	int512 resultado;
 	for (int i=15;i>=0;i--){
-		std::cin>>resultado.x[i];
+		scanf("%llu",&resultado.x[i]);
 	}
 	return resultado;
 }
@@ -83,7 +86,8 @@ int512 sumar(int512 a, int512 b){
 	int512 resultado=r0();
 	unsigned long int long k=4294967296;
 	unsigned long long int s=0;
-	unsigned int i;	
+	unsigned int i;
+	
 	for(i=0;i<=15;i++){
 	resultado.x[i]=(a.x[i]+b.x[i]+s)%k;
 	s=(a.x[i]+b.x[i]+s)/k;
@@ -115,25 +119,19 @@ int512 restar(int512 a, int512 b){
 
 int512 multiplicar(int512 a, int512 b){	
 	unsigned long int long k=4294967296;
-	unsigned long long int s;
-	unsigned int i,j;
+	int i,j;
 	int512 rp,result;
 	result=r0();
 	for(i=0;i<=15;i++){
 		j=0;
-		s=0;
 		rp=r0();
+		unsigned long long int s=0;	
 		while(j<=(15-i)){
-		
-		
 			rp.x[j+i]=(a.x[i]*b.x[j]+s)%k;
-			s=((a.x[i]*b.x[j]+s)-rp.x[j+i])/k;
-			
+			s=((a.x[i]*b.x[j]+s)-rp.x[j+i])/k;		
 			j++;
 		}
 		result=sumar(rp,result);
-		
-		
 	}
 	return result;
 }
@@ -169,7 +167,7 @@ int512 dividir(int512 a1, int512 b){
 	n2.x[0]=2;
 	n1=r0();
 	n1.x[0]=1;
-	while(mayor(a1,b) or soniguales(a1,b)){
+	while(mayor(a1,b) || soniguales(a1,b)){
 		s=r0();
 		s.x[0]=1;
 		prueba=r0();
@@ -177,7 +175,7 @@ int512 dividir(int512 a1, int512 b){
 		amax=r0();
 		prueba=b;
 		int i=0;
-		while((mayor(a1,prueba) or soniguales(a1,prueba)) and i<=15){
+		while((mayor(a1,prueba) || soniguales(a1,prueba)) && amax.x[15]==0){
 			s0=s;
 			amax=prueba;
 			s=multiplyby2e32(s);
@@ -186,7 +184,7 @@ int512 dividir(int512 a1, int512 b){
 		}
 		prueba=amax;
 		s=s0;
-		while(mayor(a1,prueba) or soniguales(a1,prueba)){
+		while(mayor(a1,prueba) || soniguales(a1,prueba)){
 			s0=s;
 			amax=prueba;
 			s=multiplyby2(s);
@@ -207,7 +205,7 @@ int512 mod(int512 a1, int512 b){
 	n2.x[0]=2;
 	n1=r0();
 	n1.x[0]=1;
-	while(mayor(a1,b) or soniguales(a1,b)){
+	while(mayor(a1,b) || soniguales(a1,b)){
 		s=r0();
 		s.x[0]=1;
 		prueba=r0();
@@ -215,16 +213,15 @@ int512 mod(int512 a1, int512 b){
 		amax=r0();
 		prueba=b;
 		int i=0;
-		while((mayor(a1,prueba) or soniguales(a1,prueba)) and i<=15){
+		while((mayor(a1,prueba) || soniguales(a1,prueba)) && amax.x[15]==0){
 			s0=s;
 			amax=prueba;
 			s=multiplyby2e32(s);
 			prueba=multiplyby2e32(prueba);
-			i++;
 		}
 		prueba=amax;
 		s=s0;
-		while(mayor(a1,prueba) or soniguales(a1,prueba)){
+		while(mayor(a1,prueba) || soniguales(a1,prueba)){
 			s0=s;
 			amax=prueba;
 			s=multiplyby2(s);
@@ -235,7 +232,6 @@ int512 mod(int512 a1, int512 b){
 	}
 	return a1;
 }
-
 
 void printd(int512 input){
 	int512 n00,n10=r0();
@@ -254,52 +250,37 @@ void printd(int512 input){
 	}
 	count--;
 	while(count>=0){
-		std::cout<<outputb10[count];
+		printf("%c",outputb10[count]);
 		count--;
 	}
 }
 
 int512 init(){
-	int512 base=r0(), result=r0(), n10=r0();
-	base.x[0]=1;
+	int i=0;
+	char number[160];
+	scanf("%s",number);
+	while(number[i]!=NULL){
+		i++;
+	}
+	i--;
+	char numbers[]={'0','1','2','3','4','5','6','7','8','9'};
+	int512 returnvalue=r0(), multipl=r0(), n10=r0();
+	multipl.x[0]=1;
 	n10.x[0]=10;
-	char alfabett[]={'0','1','2','3','4','5','6','7','8','9'};
-	string number;
-	cin>>number;
-	for(int i=number.size()-1; i>=0; i--){
-		int512 digits=r0(), aux;
-		int n=0;
-		while(number.c_str()[i]!=alfabett[n]){
-			n++;
+	for(; i>=0; i--){
+		int512 j=r0();
+		while(number[i]!=numbers[j.x[0]]){
+			j.x[0]++;
 		}
-		digits.x[0]=n;
-		aux=multiplicar(base,digits);
-		base=multiplicar(base,n10);
-		result=sumar(result,aux);
+		j=multiplicar(j,multipl);
+		returnvalue=sumar(returnvalue,j);
+		multipl=multiplicar(multipl,n10);
+		
 	}
-	return result;
+	return returnvalue;
 }
 
-
-int512 randxxx(unsigned long long int xy){
-	unsigned long long int suma,random,k;
-	int512 resultado;
-	//xy=time(0);
-	srand(xy);
-	for(int j=0; j<=15; j++){
-	suma=0;
-	random=0;
-	k=1;
-	for(int i=0; i<=31; i++){
-
-	random=rand()%2;
-	
-	suma=suma+k*random;
-	k=k*2;
-	}
-	resultado.x[j]=suma;
+#ifdef __cplusplus
 }
-	return resultado;
-}
-
-#endif
+#endif//cplusplus
+#endif//int512.h C header file
