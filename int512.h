@@ -34,9 +34,6 @@ cualquier duda sobre la implementacion me pueden poner un comentario y los ayudo
 #include <stdbool.h>
 #ifndef int512_H_
 #define int512_H_
-#ifdef __cplusplus
-extern "C"{
-#endif
 
 typedef struct int512{
 	unsigned long long int x[16];
@@ -51,13 +48,56 @@ int512 r0(){
 	return resultado;
 }
 
-bool soniguales(int512 a, int512 b){
-	for(int i=0; i<16;i++){
-		if(a.x[i]!=b.x[i]){
-		return 0;	
-		}	
-	}
-	return 1;
+bool soniguales(int512 a, int512 b){	
+if(a.x[0]!=b.x[0]){
+return 0;
+}
+if(a.x[1]!=b.x[1]){
+return 0;
+}
+if(a.x[2]!=b.x[2]){
+return 0;
+}
+if(a.x[3]!=b.x[3]){
+return 0;
+}
+if(a.x[4]!=b.x[4]){
+return 0;
+}
+if(a.x[5]!=b.x[5]){
+return 0;
+}
+if(a.x[6]!=b.x[6]){
+return 0;
+}
+if(a.x[7]!=b.x[7]){
+return 0;
+}
+if(a.x[8]!=b.x[8]){
+return 0;
+}
+if(a.x[9]!=b.x[9]){
+return 0;
+}
+if(a.x[10]!=b.x[10]){
+return 0;
+}
+if(a.x[11]!=b.x[11]){
+return 0;
+}
+if(a.x[12]!=b.x[12]){
+return 0;
+}
+if(a.x[13]!=b.x[13]){
+return 0;
+}
+if(a.x[14]!=b.x[14]){
+return 0;
+}
+if(a.x[15]!=b.x[15]){
+return 0;
+}
+return 1;
 }
 
 int512 initb2e32(){
@@ -69,18 +109,17 @@ int512 initb2e32(){
 }
 
 bool mayor(int512 a, int512 b){
-	bool yn=0;
-	
-	for(int i=0; i<=15; i++){
-		if(a.x[i]>b.x[i]){
-			yn=1;
-		}
-		if(a.x[i]<b.x[i]){
-			yn=0;
-		}
+for(int i=15; i>=0; i--){
+	if(a.x[i]>b.x[i]){
+		return 1;
 	}
-	return yn;
+	if(a.x[i]<b.x[i]){
+		return 0;
+	}
 }
+return 0;
+}
+
 
 int512 sumar(int512 a, int512 b){
 	int512 resultado=r0();
@@ -94,6 +133,7 @@ int512 sumar(int512 a, int512 b){
 }	
 	return resultado;
 }
+
 
 int512 restar(int512 a, int512 b){
 	int512 resultado=r0();
@@ -196,6 +236,7 @@ int512 dividir(int512 a1, int512 b){
 	return rp;
 }
 
+
 int512 mod(int512 a1, int512 b){
 	int512 s,rp,n2,n1,prueba,amax,s0;
 	s=r0();
@@ -232,6 +273,7 @@ int512 mod(int512 a1, int512 b){
 	}
 	return a1;
 }
+
 
 void printd(int512 input){
 	int512 n00,n10=r0();
@@ -280,7 +322,4 @@ int512 init(){
 	return returnvalue;
 }
 
-#ifdef __cplusplus
-}
-#endif//cplusplus
-#endif//int512.h C header file
+#endif//int512.h C/C++ header file
